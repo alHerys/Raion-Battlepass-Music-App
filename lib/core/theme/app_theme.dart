@@ -20,6 +20,8 @@ import 'package:birdle/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'app_text.dart';
+
 class AppTheme {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -51,5 +53,30 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70)),
       ),
     ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      border: _border(),
+      enabledBorder: _border(),
+      focusedBorder: _border(),
+      errorBorder: _border().copyWith(
+        borderSide: BorderSide(color: AppPallete.red, width: 0),
+      ),
+      hintStyle: AppText.normal,
+      contentPadding: EdgeInsets.symmetric(horizontal: 15),
+      filled: true,
+      fillColor: AppPallete.white.withValues(alpha: 0.2),
+    ),
+
+    bottomSheetTheme: BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: .circular(27)),
+      ),
+      backgroundColor: AppPallete.containerBlack,
+    ),
+  );
+
+  static OutlineInputBorder _border() => OutlineInputBorder(
+    borderRadius: BorderRadius.circular(70),
+    borderSide: BorderSide(color: AppPallete.transparent),
   );
 }

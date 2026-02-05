@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_pallete.dart';
-
 class AppText {
 
   static final headingLarge = TextStyle(
@@ -17,6 +15,11 @@ class AppText {
   static final headingSmall = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w500,
+  );
+
+  static final normal = TextStyle(
+    fontSize: 16,
+    fontWeight: .w500
   );
 
   static final caption = TextStyle(

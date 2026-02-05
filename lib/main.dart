@@ -1,4 +1,4 @@
-import 'package:birdle/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:birdle/features/auth/presentation/page/auth_onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 import 'core/theme/app_theme.dart';
@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: OnboardingPage()
+      home: AuthOnboardingPage()
     );
   }
 }
