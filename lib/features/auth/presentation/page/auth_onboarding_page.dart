@@ -29,18 +29,19 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: AppPallete.transparent,
         elevation: 0,
         leadingWidth: double.infinity,
-        backgroundColor: AppPallete.transparent,
-        leading: Padding(padding: EdgeInsets.only(left: 11), child: AppLogo()),
+        leading: AppLogo(),
       ),
 
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/onboarding_bg.png'),
-            fit: .cover,
+            fit: .fitWidth,
           ),
         ),
         child: OnboardingContent(
@@ -49,7 +50,11 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
             emailController: emailController,
             passwordController: passwordController,
             nameController: nameController,
-            signUpButton: () {},
+            signUpButton: () {
+              print(
+                'email: ${emailController.text}, password: ${passwordController.text}, name: ${nameController.text}',
+              );
+            },
           ),
           loginButton: () => AuthBottomSheets.loginBottomSheet(
             context: context,

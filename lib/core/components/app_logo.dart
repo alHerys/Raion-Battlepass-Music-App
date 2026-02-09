@@ -7,7 +7,7 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 21, right: 10),
       child: Row(
         spacing: 4,
         children: [

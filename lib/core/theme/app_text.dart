@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'app_pallete.dart';
+
 class AppText {
 
   static final headingLarge = TextStyle(
@@ -9,7 +11,7 @@ class AppText {
 
   static final headingMedium = TextStyle(
     fontSize: 44,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
 
   static final headingSmall = TextStyle(
@@ -17,7 +19,12 @@ class AppText {
     fontWeight: FontWeight.w500,
   );
 
-  static final normal = TextStyle(
+  static final bodyLarge = TextStyle(
+    fontSize: 18,
+    fontWeight: .w500
+  );
+
+  static final body = TextStyle(
     fontSize: 16,
     fontWeight: .w500
   );
@@ -25,6 +32,17 @@ class AppText {
   static final caption = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
+  );
+
+  static final bodySmall = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+  );
+
+  static final songArtist = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: AppPallete.textGray,
   );
 
   static final bodyLink = TextStyle(

@@ -39,7 +39,7 @@ class AppTheme {
       onSurfaceVariant: AppPallete.textGray,
       primaryContainer: AppPallete.containerBlack,
       onPrimaryContainer: AppPallete.white,
-      onSecondaryContainer: AppPallete.textGray,
+      onSecondaryContainer: AppPallete.iconBackgroud,
       secondary: AppPallete.gray,
       onSecondary: AppPallete.textBlack,
     ),
@@ -61,13 +61,14 @@ class AppTheme {
       errorBorder: _border().copyWith(
         borderSide: BorderSide(color: AppPallete.red, width: 0),
       ),
-      hintStyle: AppText.normal,
+      hintStyle: AppText.body,
       contentPadding: EdgeInsets.symmetric(horizontal: 15),
       filled: true,
       fillColor: AppPallete.white.withValues(alpha: 0.2),
     ),
 
     bottomSheetTheme: BottomSheetThemeData(
+      showDragHandle: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: .circular(27)),
       ),
