@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:birdle/core/constants/image_const.dart';
+import 'package:birdle/features/auth/presentation/bloc/auth_bloc.dart';
 
 import '../../../../core/components/app_logo.dart';
 import '../../../../core/theme/app_pallete.dart';
@@ -17,13 +21,15 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -42,7 +48,7 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/onboarding_bg.png'),
+            image: AssetImage(ImageConst.onboardingBackground),
             fit: .fitWidth,
           ),
         ),
@@ -53,8 +59,22 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
             passwordController: passwordController,
             nameController: nameController,
             confirmPasswordController: confirmPasswordController,
+            loginButton: () async {
+              context.read<AuthBloc>().add(
+                AuthLoginEvent(
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              );
+            },
             signUpButton: () async {
-              // TODO: Implement SignUp BloC
+              context.read<AuthBloc>().add(
+                AuthSignUpEvent(
+                  name: nameController.text.trim(),
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              );
             },
           ),
           loginButton: () => AuthBottomSheets.loginBottomSheet(
@@ -64,10 +84,21 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
             nameController: nameController,
             confirmPasswordController: confirmPasswordController,
             loginButton: () async {
-              // TODO: Implement Login BloC
+              context.read<AuthBloc>().add(
+                AuthLoginEvent(
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              );
             },
             signUpButton: () async {
-              // TODO: Implement SignUp BloC
+              context.read<AuthBloc>().add(
+                AuthSignUpEvent(
+                  name: nameController.text.trim(),
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              );
             },
           ),
         ),

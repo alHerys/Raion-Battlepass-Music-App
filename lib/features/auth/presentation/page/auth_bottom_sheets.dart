@@ -1,10 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_text.dart';
 import '../../../../core/validator/auth_validator.dart';
+import '../../../home/presentation/pages/home_page.dart';
+import '../bloc/auth_bloc.dart';
 import '../widget/auth_button.dart';
 import '../widget/custom_field.dart';
+import '../widget/error_message_container.dart';
 
 class AuthBottomSheets {
   static Future loginBottomSheet({
@@ -47,7 +51,7 @@ class AuthBottomSheets {
                           hintText: 'name@example.com',
                           labelText: 'Email',
                           validator: (value) =>
-                              AuthValidator.name(value: value),
+                              AuthValidator.email(value: value),
                         ),
                         CustomField(
                           controller: passwordController,
@@ -60,49 +64,84 @@ class AuthBottomSheets {
                       ],
                     ),
                     SafeArea(
-                      child: AuthButton(
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            loginButton;
+                      child: BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthSuccess) {
+                            print(state.userData);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
                           }
                         },
-                        buttonText: 'Login',
-                        buttonTextColor: Theme.of(
-                          context,
-                        ).colorScheme.onPrimary,
-                        buttonBgColor: Theme.of(context).colorScheme.primary,
-                        richText: RichText(
-                          textAlign: .center,
-                          text: TextSpan(
-                            text: 'Don\'t have an account? ',
-                            style: AppText.caption.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
+                        builder: (context, state) {
+                          if (state is AuthLoading) {
+                            return LinearProgressIndicator();
+                          }
+
+                          return Column(
+                            spacing: 15,
+                            crossAxisAlignment: .stretch,
                             children: [
-                              TextSpan(
-                                text: 'Sign Up',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pop(context);
-                                    nameBottomSheet(
-                                      context: context,
-                                      nameController: nameController,
-                                      emailController: emailController,
-                                      passwordController: passwordController,
-                                      confirmPasswordController: confirmPasswordController,
-                                      signUpButton: signUpButton,
-                                    );
-                                  },
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
+                              if (state is AuthFailure)
+                                ErrorMessageContainer(state.message),
+
+                              AuthButton(
+                                onTap: () {
+                                  if (formKey.currentState!.validate()) {
+                                    loginButton();
+                                  }
+                                },
+                                buttonText: 'Login',
+                                buttonTextColor: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary,
+                                buttonBgColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                richText: RichText(
+                                  textAlign: .center,
+                                  text: TextSpan(
+                                    text: 'Don\'t have an account? ',
+                                    style: AppText.caption.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Sign Up',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pop(context);
+                                            nameBottomSheet(
+                                              context: context,
+                                              nameController: nameController,
+                                              emailController: emailController,
+                                              passwordController:
+                                                  passwordController,
+                                              confirmPasswordController:
+                                                  confirmPasswordController,
+                                              loginButton: loginButton,
+                                              signUpButton: signUpButton,
+                                            );
+                                          },
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -177,40 +216,74 @@ class AuthBottomSheets {
                     ),
 
                     SafeArea(
-                      child: AuthButton(
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            signUpButton;
+                      child: BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthSuccess) {
+                            print(state.userData);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
                           }
                         },
-                        buttonText: 'Sign Up',
-                        buttonTextColor: Theme.of(
-                          context,
-                        ).colorScheme.onPrimary,
-                        buttonBgColor: Theme.of(context).colorScheme.primary,
-                        richText: RichText(
-                          textAlign: .center,
-                          maxLines: 2,
-                          text: TextSpan(
-                            text: 'By continuing, you agree to RaionME\'s ',
-                            style: AppText.caption.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
+                        builder: (context, state) {
+                          if (state is AuthLoading) {
+                            return LinearProgressIndicator();
+                          }
+
+                          return Column(
+                            spacing: 15,
+                            crossAxisAlignment: .stretch,
                             children: [
-                              TextSpan(
-                                text: 'Conditions of Use and Privacy Notice',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {},
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
+                              if (state is AuthFailure)
+                                ErrorMessageContainer(state.message),
+
+                              AuthButton(
+                                onTap: () {
+                                  if (formKey.currentState!.validate()) {
+                                    signUpButton();
+                                  }
+                                },
+                                buttonText: 'Sign Up',
+                                buttonTextColor: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary,
+                                buttonBgColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                richText: RichText(
+                                  textAlign: .center,
+                                  maxLines: 2,
+                                  text: TextSpan(
+                                    text:
+                                        'By continuing, you agree to RaionME\'s ',
+                                    style: AppText.caption.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            'Conditions of Use and Privacy Notice',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {},
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -230,6 +303,7 @@ class AuthBottomSheets {
     required TextEditingController passwordController,
     required TextEditingController confirmPasswordController,
     required VoidCallback signUpButton,
+    required VoidCallback loginButton,
   }) {
     final formKey = GlobalKey<FormState>();
 
@@ -272,7 +346,8 @@ class AuthBottomSheets {
                               context: context,
                               emailController: emailController,
                               passwordController: passwordController,
-                              confirmPasswordController: confirmPasswordController,
+                              confirmPasswordController:
+                                  confirmPasswordController,
                               signUpButton: signUpButton,
                             );
                           }
@@ -300,8 +375,9 @@ class AuthBottomSheets {
                                       emailController: emailController,
                                       passwordController: passwordController,
                                       nameController: nameController,
-                                      loginButton: signUpButton,
-                                      confirmPasswordController: confirmPasswordController,
+                                      loginButton: loginButton,
+                                      confirmPasswordController:
+                                          confirmPasswordController,
                                       signUpButton: signUpButton,
                                     );
                                   },

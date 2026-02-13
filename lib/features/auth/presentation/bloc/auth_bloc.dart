@@ -7,9 +7,9 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthService authService;
+  final AuthService _authService;
 
-  AuthBloc(this.authService) : super(AuthInitial()) {
+  AuthBloc(this._authService) : super(AuthInitial()) {
     on<AuthSignUpEvent>(_signUpEventHandler);
 
     on<AuthLoginEvent>(_loginEventHandler);
@@ -22,18 +22,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     try {
-      final response = await authService.signup(
+      final response = await _authService.signup(
         name: event.name,
         email: event.email,
         password: event.password,
       );
 
-      response.match(
+      return response.match(
         (userData) => emit(AuthSuccess(userData)),
         (error) => emit(AuthFailure(error.message)),
       );
     } catch (e) {
-      emit(AuthFailure(e.toString()));
+      return emit(AuthFailure(e.toString()));
     }
   }
 
@@ -44,17 +44,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     try {
-      final response = await authService.login(
+      final response = await _authService.login(
         email: event.email,
         password: event.password,
       );
 
-      response.match(
-        (userData) => emit(AuthSuccess(userData)),
-        (error) => emit(AuthFailure(error.message)),
+      return response.match(
+        (userData) {
+          
+          emit(AuthSuccess(userData));
+        },
+        (error) {
+          emit(AuthFailure(error.message));
+        },
       );
     } catch (e) {
-      emit(AuthFailure(e.toString()));
+      return emit(AuthFailure(e.toString()));
     }
+  }
+
+  @override
+  void onTransition(Transition<AuthEvent, AuthState> transition) {
+    super.onTransition(transition);
+
+    print(transition);
   }
 }

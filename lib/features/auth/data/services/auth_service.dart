@@ -14,19 +14,25 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await http.post(
+      final signUpResponse = await http.post(
         Uri.parse(ApiConst.signup),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'name': name, 'email': email, 'password': password}),
       );
 
-      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+      final resBodyMap = jsonDecode(signUpResponse.body) as Map<String, dynamic>;
 
-      if (response.statusCode != 201) {
+      if (signUpResponse.statusCode != 201) {
         return Right(AppError(message: resBodyMap['detail']));
       }
 
-      return Left(UserModel.fromMap(resBodyMap));
+      final loginResponse = await login(email: email, password: password);
+
+      return loginResponse.match(
+        (userData) => Left(userData),
+        (error) => Right(error),
+      );
+
     } catch (e) {
       return Right(AppError(message: e.toString()));
     }
@@ -54,4 +60,10 @@ class AuthService {
       return Right(AppError(message: e.toString()));
     }
   }
+
+  // Future<Either<UserModel, AppError>> getCurrentUser({
+  //   required String token
+  // }) async {
+
+  // }
 }
