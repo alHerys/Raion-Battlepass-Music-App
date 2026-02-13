@@ -1,4 +1,4 @@
-class ImagePath {
+class ImageConst {
   static const String logo = 'assets/logo.png';
   static const String onboardingBackground = 'assets/onboarding_bg.png';
   static const String thumbnail1 = 'assets/thumbnail_1.png';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/components/app_logo.dart';
 import '../../../../core/theme/app_pallete.dart';
+import '../../data/services/auth_service.dart';
 import '../widget/onboarding_content.dart';
 import 'auth_bottom_sheets.dart';
 
@@ -13,9 +14,10 @@ class AuthOnboardingPage extends StatefulWidget {
 }
 
 class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -50,10 +52,9 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
             emailController: emailController,
             passwordController: passwordController,
             nameController: nameController,
-            signUpButton: () {
-              print(
-                'email: ${emailController.text}, password: ${passwordController.text}, name: ${nameController.text}',
-              );
+            confirmPasswordController: confirmPasswordController,
+            signUpButton: () async {
+              // TODO: Implement SignUp BloC
             },
           ),
           loginButton: () => AuthBottomSheets.loginBottomSheet(
@@ -61,8 +62,13 @@ class _AuthOnboardingPageState extends State<AuthOnboardingPage> {
             emailController: emailController,
             passwordController: passwordController,
             nameController: nameController,
-            loginButton: () {},
-            signUpButton: () {},
+            confirmPasswordController: confirmPasswordController,
+            loginButton: () async {
+              // TODO: Implement Login BloC
+            },
+            signUpButton: () async {
+              // TODO: Implement SignUp BloC
+            },
           ),
         ),
       ),

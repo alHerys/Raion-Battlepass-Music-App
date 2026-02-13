@@ -12,6 +12,7 @@ class AuthBottomSheets {
     required TextEditingController emailController,
     required TextEditingController passwordController,
     required TextEditingController nameController,
+    required TextEditingController confirmPasswordController,
     required VoidCallback loginButton,
     required VoidCallback signUpButton,
   }) {
@@ -62,7 +63,7 @@ class AuthBottomSheets {
                       child: AuthButton(
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            loginButton();
+                            loginButton;
                           }
                         },
                         buttonText: 'Login',
@@ -88,6 +89,7 @@ class AuthBottomSheets {
                                       nameController: nameController,
                                       emailController: emailController,
                                       passwordController: passwordController,
+                                      confirmPasswordController: confirmPasswordController,
                                       signUpButton: signUpButton,
                                     );
                                   },
@@ -117,6 +119,7 @@ class AuthBottomSheets {
     required BuildContext context,
     required TextEditingController emailController,
     required TextEditingController passwordController,
+    required TextEditingController confirmPasswordController,
     required VoidCallback signUpButton,
   }) {
     final formKey = GlobalKey<FormState>();
@@ -161,7 +164,7 @@ class AuthBottomSheets {
                               AuthValidator.password(value: value),
                         ),
                         CustomField(
-                          controller: TextEditingController(),
+                          controller: confirmPasswordController,
                           hintText: 'Confirm Your Password',
                           labelText: 'Confirm Password',
                           isObscure: true,
@@ -177,7 +180,7 @@ class AuthBottomSheets {
                       child: AuthButton(
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            signUpButton();
+                            signUpButton;
                           }
                         },
                         buttonText: 'Sign Up',
@@ -225,6 +228,7 @@ class AuthBottomSheets {
     required TextEditingController nameController,
     required TextEditingController emailController,
     required TextEditingController passwordController,
+    required TextEditingController confirmPasswordController,
     required VoidCallback signUpButton,
   }) {
     final formKey = GlobalKey<FormState>();
@@ -261,13 +265,14 @@ class AuthBottomSheets {
 
                     SafeArea(
                       child: AuthButton(
-                        onTap: () {
+                        onTap: () async {
                           if (formKey.currentState!.validate()) {
                             Navigator.pop(context);
                             signUpBottomSheet(
                               context: context,
                               emailController: emailController,
                               passwordController: passwordController,
+                              confirmPasswordController: confirmPasswordController,
                               signUpButton: signUpButton,
                             );
                           }
@@ -296,6 +301,7 @@ class AuthBottomSheets {
                                       passwordController: passwordController,
                                       nameController: nameController,
                                       loginButton: signUpButton,
+                                      confirmPasswordController: confirmPasswordController,
                                       signUpButton: signUpButton,
                                     );
                                   },
