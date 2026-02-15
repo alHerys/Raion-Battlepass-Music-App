@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../core/constants/api_const.dart';
-import '../../../../core/error/app_error.dart';
+import '../../core/constants/api_const.dart';
+import '../../core/error/app_error.dart';
 import '../models/user_model.dart';
 
 class AuthService {

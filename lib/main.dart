@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:birdle/core/theme/app_theme.dart';
-import 'package:birdle/features/auth/data/services/auth_service.dart';
-import 'package:birdle/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:birdle/features/auth/presentation/page/auth_onboarding_page.dart';
-import 'package:birdle/features/home/presentation/pages/home_page.dart';
+import 'package:birdle/data/services/auth_service.dart';
+import 'package:birdle/bloc/auth/auth_bloc.dart';
+import 'package:birdle/presentation/auth/page/auth_onboarding_page.dart';
+import 'package:birdle/presentation/home/pages/home_page.dart';
 
 void main() {
   runApp(const MainApp());
