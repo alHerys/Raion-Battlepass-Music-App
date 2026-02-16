@@ -1,11 +1,22 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
+
+part 'song_model.g.dart';
+
+@HiveType(typeId: 1)
 class SongModel {
+  @HiveField(0)
   final String songUrl;
+  @HiveField(1)
   final String artist;
+  @HiveField(2)
   final String uploaderId;
+  @HiveField(3)
   final String id;
+  @HiveField(4)
   final String thumbnailUrl;
+  @HiveField(5)
   final String title;
 
   SongModel({

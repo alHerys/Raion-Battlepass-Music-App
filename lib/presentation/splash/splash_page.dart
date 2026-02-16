@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/image_const.dart';
 import '../auth/page/auth_onboarding_page.dart';
 import '../../viewmodel/auth/auth_bloc.dart';
-import '../home/pages/home_page.dart';
 import '../home/pages/root_page.dart';
 
 class SplashPage extends StatelessWidget {
@@ -16,7 +15,6 @@ class SplashPage extends StatelessWidget {
       body: Center(
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
