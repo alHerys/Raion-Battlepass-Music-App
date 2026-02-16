@@ -23,51 +23,34 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SongBloc, SongState>(
-      listener: (context, state) {
-        if (state is SongLoading) {
-          print('Loading');
-        }
-
-        if (state is GetSongSuccess) {
-          for (var song in state.songs) {
-            print(song);
-          }
-        }
-
-        if (state is SongFailure) {
-          print(state.message);
-        }
+    return PersistentTabView(
+      backgroundColor: AppPallete.backgroundBlack,
+      tabs: [
+        PersistentTabConfig(
+          screen: HomePage(),
+          item: ItemConfig(
+            icon: Icon(Icons.home_filled),
+            title: 'Home',
+            activeForegroundColor: AppPallete.yellow,
+          ),
+        ),
+        PersistentTabConfig(
+          screen: ProfilePage(),
+          item: ItemConfig(
+            icon: Icon(Icons.person),
+            title: 'Profile',
+            activeForegroundColor: AppPallete.yellow,
+          ),
+        ),
+      ],
+      navBarBuilder: (navBarConfig) {
+        return Style12BottomNavBar(
+          navBarConfig: navBarConfig,
+          navBarDecoration: NavBarDecoration(
+            color: AppPallete.backgroundBlack,
+          ),
+        );
       },
-      child: PersistentTabView(
-        backgroundColor: AppPallete.backgroundBlack,
-        tabs: [
-          PersistentTabConfig(
-            screen: HomePage(),
-            item: ItemConfig(
-              icon: Icon(Icons.home_filled),
-              title: 'Home',
-              activeForegroundColor: AppPallete.yellow,
-            ),
-          ),
-          PersistentTabConfig(
-            screen: ProfilePage(),
-            item: ItemConfig(
-              icon: Icon(Icons.person),
-              title: 'Profile',
-              activeForegroundColor: AppPallete.yellow,
-            ),
-          ),
-        ],
-        navBarBuilder: (navBarConfig) {
-          return Style12BottomNavBar(
-            navBarConfig: navBarConfig,
-            navBarDecoration: NavBarDecoration(
-              color: AppPallete.backgroundBlack,
-            ),
-          );
-        },
-      ),
     );
   }
 }

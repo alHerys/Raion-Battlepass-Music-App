@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
@@ -27,44 +28,64 @@ class ProfilePage extends StatelessWidget {
       ),
 
       body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            Text('Alvianto Hery Sarborn', style: AppText.headingSmall),
-            Text(
-              'alfiantoherysarborn@gmail.com',
-              style: AppText.caption.copyWith(color: AppPallete.textGray),
-            ),
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthInitial) {
+              Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pushReplacementNamed('/auth');
+            }
+          },
+          builder: (context, state) {
+            var name = 'Name Placeholder';
+            var email = 'Email Placeholder';
 
-            SizedBox(height: 36),
+            if (state is AuthSuccess) {
+              name = state.userData.name;
+              email = state.userData.email;
+            }
 
-            SizedBox(
-              width: 175,
-              child: ElevatedButton(
-                onPressed: () =>
-                    context.read<AuthBloc>().add(AuthLogoutEvent()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppPallete.red,
+            return Column(
+              mainAxisAlignment: .center,
+              children: [
+                Skeletonizer(
+                  enabled: state is AuthLoading,
+                  child: Column(
+                    children: [
+                      Text(name, style: AppText.headingSmall),
+                      Text(
+                        email,
+                        style: AppText.caption.copyWith(
+                          color: AppPallete.textGray,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: BlocConsumer<AuthBloc, AuthState>(
-                  listener: (context, state) {
-                    if (state is AuthInitial) {
-                      Navigator.of(
-                        context,
-                        rootNavigator: true,
-                      ).pushReplacementNamed('/auth');
-                    }
-                  },
-                  builder: (context, state) {
-                    return Text(
+
+                SizedBox(height: 36),
+
+                SizedBox(
+                  width: 175,
+                  child: ElevatedButton(
+                    onPressed: state is AuthSuccess
+                        ? () {
+                            context.read<AuthBloc>().add(AuthLogoutEvent());
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppPallete.red,
+                    ),
+                    child: Text(
                       'Logout',
                       style: TextStyle(color: AppPallete.white),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

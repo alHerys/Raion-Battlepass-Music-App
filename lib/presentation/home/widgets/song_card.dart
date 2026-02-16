@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/image_const.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/theme/app_text.dart';
 
 class SongCard extends StatefulWidget {
   final String title;
   final String artist;
-  final String imagePath;
+  final String? imagePath;
 
   const SongCard({
     super.key,
     required this.title,
     required this.artist,
-    required this.imagePath,
+    this.imagePath,
   });
 
   @override
@@ -29,18 +29,25 @@ class _SongCardState extends State<SongCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       leading: GestureDetector(
         onTap: () {},
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Image.asset(
-            ImageConst.thumbnail1,
-            height: 40,
-            width: 40,
-            fit: BoxFit.cover,
+        child: Skeletonizer(
+          enabled: widget.imagePath == null,
+          child: Skeleton.leaf(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: widget.imagePath == null
+                  ? Bone.square(size: 40)
+                  : Image.network(
+                      widget.imagePath!,
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
+            ),
           ),
         ),
       ),
-      title: Text('Oakvale (From "Fable")', style: AppText.body),
-      subtitle: Text('Ava Keys', style: AppText.songArtist),
+      title: Text(widget.title, style: AppText.body),
+      subtitle: Text(widget.artist, style: AppText.songArtist),
       trailing: GestureDetector(
         onTap: () {
           setState(() {
