@@ -7,6 +7,7 @@ import '../../core/constants/api_const.dart';
 import '../../core/constants/storage_const.dart';
 import '../../core/error/app_error.dart';
 import '../models/user_model.dart';
+import '../services/hive_storage_service.dart';
 import '../services/secure_storage_service.dart';
 
 class AuthRepository {
@@ -61,7 +62,7 @@ class AuthRepository {
       secureStorateService.write(
         key: StorageConst.jwtStorageKey,
         value: resBodyMap['token'],
-      );
+    );
 
       return Left(UserModel.fromMap(resBodyMap['user']));
     } catch (e) {

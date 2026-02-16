@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/image_const.dart';
 import '../theme/app_pallete.dart';
 
 class AppLogo extends StatelessWidget {
@@ -12,14 +13,14 @@ class AppLogo extends StatelessWidget {
       child: Row(
         spacing: 4,
         children: [
-          Image.asset('assets/logo.png', width: 17, height: 25),
+          Image.asset(ImageConst.logo, width: 17, height: 25),
           RichText(
             text: TextSpan(
               text: 'Raion',
               style: TextStyle(fontSize: 22, fontWeight: .w700),
               children: [
                 TextSpan(
-                  text: 'ME',
+                  text: 'BP',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: .w700,

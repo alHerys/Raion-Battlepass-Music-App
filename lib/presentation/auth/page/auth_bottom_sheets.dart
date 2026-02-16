@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
-import '../../home/pages/home_page.dart';
-import '../../bloc/auth/auth_bloc.dart';
+import '../../../viewmodel/auth/auth_bloc.dart';
 import '../widget/auth_button.dart';
 import '../widget/custom_field.dart';
 import '../widget/error_message_container.dart';
@@ -67,12 +66,7 @@ class AuthBottomSheets {
                       child: BlocConsumer<AuthBloc, AuthState>(
                         listener: (context, state) {
                           if (state is AuthSuccess) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                            Navigator.pushReplacementNamed(context, '/home');
                           }
                         },
                         builder: (context, state) {
@@ -219,12 +213,7 @@ class AuthBottomSheets {
                         listener: (context, state) {
                           if (state is AuthSuccess) {
                             print(state.userData);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                            Navigator.pushReplacementNamed(context, '/home');
                           }
                         },
                         builder: (context, state) {

@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/user_model.dart';
-import '../../../data/repositories/auth_repository.dart';
-import '../../../data/services/secure_storage_service.dart';
+import '../../core/constants/storage_const.dart';
+import '../../data/models/user_model.dart';
+import '../../data/repositories/auth_repository.dart';
+import '../../data/services/hive_storage_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -13,6 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<AuthSignUpEvent>(_signUpEventHandler);
     on<AuthLoginEvent>(_loginEventHandler);
+    on<AuthCheckTokenEvent>(_checkTokenEventHandler);
+    on<AuthLogoutEvent>(_logoutEventHandler);
   }
 
   Future<void> _signUpEventHandler(
@@ -51,6 +54,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       return response.match(
         (userData) {
+          final hive = HiveStorageService();
+          hive.save<UserModel>(
+            boxName: StorageConst.userHiveBox,
+            boxKey: StorageConst.userHiveKey,
+            value: userData,
+          );
+
           emit(AuthSuccess(userData));
         },
         (error) {
@@ -62,19 +72,39 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _checkTokenEvent(
-    AuthCheckToken event,
+  Future<void> _logoutEventHandler(
+    AuthLogoutEvent event,
     Emitter<AuthState> emit,
   ) async {
-    final secureStorage = SecureStorageService();
+    final hive = HiveStorageService();
 
-    // final token = await secureStorage.read();
+    try {
+      hive.delete<UserModel>(
+        boxName: StorageConst.userHiveBox,
+        boxKey: StorageConst.userHiveKey,
+      );
 
-    // if (token != null) {
-    //   emit(AuthSuccess(userData));
-    // } else {
-    //   emit(AuthInitial());
-    // }
+      emit(AuthInitial());
+    } catch (e) {
+      return;
+    }
+  }
+
+  Future<void> _checkTokenEventHandler(
+    AuthCheckTokenEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final hive = HiveStorageService();
+    final user = await hive.read<UserModel>(
+      boxName: StorageConst.userHiveBox,
+      boxKey: StorageConst.userHiveKey,
+    );
+
+    if (user != null) {
+      emit(AuthSuccess(user));
+    } else {
+      emit(AuthInitial());
+    }
   }
 
   @override

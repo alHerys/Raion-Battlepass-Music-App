@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/theme/app_theme.dart';
 import 'data/repositories/auth_repository.dart';
+import 'data/services/hive_storage_service.dart';
 import 'presentation/auth/page/auth_onboarding_page.dart';
-import 'presentation/bloc/auth/auth_bloc.dart';
+import 'viewmodel/auth/auth_bloc.dart';
 import 'presentation/home/pages/home_page.dart';
+import 'presentation/home/pages/root_page.dart';
+import 'presentation/splash/splash_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //? Hive Local Storage
+  await Hive.initFlutter();
+  await HiveStorageService().initBox();
+
+  
+
   runApp(const MainApp());
 }
 
@@ -23,14 +35,16 @@ class MainApp extends StatelessWidget {
         ),
       ],
       child: BlocProvider(
-        create: (context) => AuthBloc(context.read<AuthRepository>()),
+        create: (context) =>
+            AuthBloc(context.read<AuthRepository>())..add(AuthCheckTokenEvent()),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,
           initialRoute: '/',
           routes: {
-            '/': (_) => AuthOnboardingPage(),
-            'home/': (_) => HomePage(),
+            '/': (_) => SplashPage(),
+            '/auth': (_) => AuthOnboardingPage(),
+            '/home': (_) => RootPage(),
           },
         ),
       ),
