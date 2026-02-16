@@ -19,9 +19,7 @@ class SongRepository {
       );
     }
 
-    final jsonList = jsonDecode(response.body);
-
-    return Left(jsonList.map((json) => SongModel.fromJson(json)).toList());
+    return Left(SongModel.fromJsonList(response.body));
   }
 
   // Future<void> upload() async {
@@ -32,7 +30,7 @@ class SongRepository {
   //   }
   // }
 
-  Future<Either<List<SongModel>, AppError>> mySong(String token) async {
+  Future<Either<List<SongModel>, AppError>> getMySong(String token) async {
     final response = await http.get(
       Uri.parse(ApiConst.getUserSongs),
       headers: {'Content-Type': 'application/json', 'x-auth-token': token},
@@ -45,7 +43,7 @@ class SongRepository {
 
     final jsonList = jsonDecode(response.body);
 
-    return Left(jsonList.map((json) => SongModel.fromJson(jsonList)).toList());
+    return Left(jsonList.map((json) => SongModel.fromMap(jsonList)).toList());
   }
 
   Future<void> update() async {}

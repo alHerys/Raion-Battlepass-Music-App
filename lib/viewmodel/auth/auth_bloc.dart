@@ -4,6 +4,7 @@ import '../../core/constants/storage_const.dart';
 import '../../data/models/user_model.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/services/hive_storage_service.dart';
+import '../../data/services/secure_storage_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -77,12 +78,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final hive = HiveStorageService();
+    final secureStorage = SecureStorageService();
 
     try {
-      hive.delete<UserModel>(
+      await hive.delete<UserModel>(
         boxName: StorageConst.userHiveBox,
         boxKey: StorageConst.userHiveKey,
       );
+
+      await secureStorage.delete(key: StorageConst.jwtStorageKey);
 
       emit(AuthInitial());
     } catch (e) {

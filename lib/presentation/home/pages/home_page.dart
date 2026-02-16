@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/components/app_logo.dart';
 import '../../../core/constants/image_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
+import '../../../viewmodel/song/song_bloc.dart';
 import '../widgets/highlighted_song.dart';
-import '../widgets/song_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,13 +38,11 @@ class HomePage extends StatelessWidget {
                   favoriteButton: () {},
                   playlistButton: () {},
                 ),
-
+            
                 Padding(
                   padding: const .only(top: 34, bottom: 10),
                   child: Text('Other Songs', style: AppText.bodyLarge),
                 ),
-
-                ...List.generate(5, (int index) => SongCard()),
               ],
             ),
           ),

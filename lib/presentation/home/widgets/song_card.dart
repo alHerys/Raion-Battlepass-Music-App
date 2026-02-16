@@ -3,7 +3,16 @@ import '../../../core/constants/image_const.dart';
 import '../../../core/theme/app_text.dart';
 
 class SongCard extends StatefulWidget {
-  const SongCard({super.key});
+  final String title;
+  final String artist;
+  final String imagePath;
+
+  const SongCard({
+    super.key,
+    required this.title,
+    required this.artist,
+    required this.imagePath,
+  });
 
   @override
   State<SongCard> createState() => _SongCardState();
