@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/user_model.dart';
-import '../../data/services/auth_service.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/repositories/auth_repository.dart';
+import '../../../data/services/secure_storage_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthService _authService;
+  final AuthRepository _authRepository;
 
-  AuthBloc(this._authService) : super(AuthInitial()) {
+  AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<AuthSignUpEvent>(_signUpEventHandler);
-
     on<AuthLoginEvent>(_loginEventHandler);
   }
 
@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     try {
-      final response = await _authService.signup(
+      final response = await _authRepository.signup(
         name: event.name,
         email: event.email,
         password: event.password,
@@ -44,14 +44,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     try {
-      final response = await _authService.login(
+      final response = await _authRepository.login(
         email: event.email,
         password: event.password,
       );
 
       return response.match(
         (userData) {
-          
           emit(AuthSuccess(userData));
         },
         (error) {
@@ -61,6 +60,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       return emit(AuthFailure(e.toString()));
     }
+  }
+
+  Future<void> _checkTokenEvent(
+    AuthCheckToken event,
+    Emitter<AuthState> emit,
+  ) async {
+    final secureStorage = SecureStorageService();
+
+    // final token = await secureStorage.read();
+
+    // if (token != null) {
+    //   emit(AuthSuccess(userData));
+    // } else {
+    //   emit(AuthInitial());
+    // }
   }
 
   @override

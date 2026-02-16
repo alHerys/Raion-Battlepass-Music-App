@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:birdle/core/theme/app_text.dart';
-import 'package:birdle/presentation/auth/widget/auth_button.dart';
+import '../../../core/theme/app_text.dart';
+import 'auth_button.dart';
 
 class OnboardingContent extends StatelessWidget {
   final VoidCallback getStartedButton;

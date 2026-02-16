@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:birdle/core/theme/app_text.dart';
+import '../../../core/theme/app_text.dart';
 
 class CustomField extends StatelessWidget {
   final TextEditingController controller;

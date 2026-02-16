@@ -1,7 +1,7 @@
-import 'package:birdle/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'app_pallete.dart';
 import 'app_text.dart';
 
 class AppTheme {
@@ -17,7 +17,7 @@ class AppTheme {
       primary: AppPallete.yellow,
       onPrimary: AppPallete.textBlack,
       surface: AppPallete.backgroundBlack,
-    onSurface: AppPallete.white,
+      onSurface: AppPallete.white,
       onSurfaceVariant: AppPallete.textGray,
       primaryContainer: AppPallete.containerBlack,
       onPrimaryContainer: AppPallete.white,

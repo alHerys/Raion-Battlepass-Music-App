@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:birdle/core/constants/image_const.dart';
-import 'package:birdle/bloc/auth/auth_bloc.dart';
-
+import '../../bloc/auth/auth_bloc.dart';
 import '../../../core/components/app_logo.dart';
+import '../../../core/constants/image_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../widget/onboarding_content.dart';
 import 'auth_bottom_sheets.dart';

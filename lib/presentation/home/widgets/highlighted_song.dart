@@ -1,6 +1,7 @@
-import 'package:birdle/core/theme/app_pallete.dart';
-import 'package:birdle/core/theme/app_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/theme/app_pallete.dart';
+import '../../../core/theme/app_text.dart';
 
 class HighlightedSong extends StatelessWidget {
   final String thumbnailPath;

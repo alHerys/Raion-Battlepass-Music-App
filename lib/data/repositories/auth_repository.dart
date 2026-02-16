@@ -4,10 +4,12 @@ import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/constants/api_const.dart';
+import '../../core/constants/storage_const.dart';
 import '../../core/error/app_error.dart';
 import '../models/user_model.dart';
+import '../services/secure_storage_service.dart';
 
-class AuthService {
+class AuthRepository {
   Future<Either<UserModel, AppError>> signup({
     required String name,
     required String email,
@@ -20,7 +22,8 @@ class AuthService {
         body: jsonEncode({'name': name, 'email': email, 'password': password}),
       );
 
-      final resBodyMap = jsonDecode(signUpResponse.body) as Map<String, dynamic>;
+      final resBodyMap =
+          jsonDecode(signUpResponse.body) as Map<String, dynamic>;
 
       if (signUpResponse.statusCode != 201) {
         return Right(AppError(message: resBodyMap['detail']));
@@ -32,7 +35,6 @@ class AuthService {
         (userData) => Left(userData),
         (error) => Right(error),
       );
-
     } catch (e) {
       return Right(AppError(message: e.toString()));
     }
@@ -55,15 +57,17 @@ class AuthService {
         return Right(AppError(message: resBodyMap['detail'] as String));
       }
 
+      final secureStorateService = SecureStorageService();
+      secureStorateService.write(
+        key: StorageConst.jwtStorageKey,
+        value: resBodyMap['token'],
+      );
+
       return Left(UserModel.fromMap(resBodyMap['user']));
     } catch (e) {
       return Right(AppError(message: e.toString()));
     }
   }
 
-  // Future<Either<UserModel, AppError>> getCurrentUser({
-  //   required String token
-  // }) async {
-
-  // }
+  // Future<Either< getCurrentUser() async {}
 }

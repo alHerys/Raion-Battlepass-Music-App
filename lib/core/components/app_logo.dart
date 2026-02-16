@@ -1,5 +1,6 @@
-import 'package:birdle/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
+
+import '../theme/app_pallete.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key});
