@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 
 class HighlightedSong extends StatelessWidget {
-  final String thumbnailPath;
+  final String thumbnailUrl;
   final String songTitle;
   final String songArtist;
   final VoidCallback onTap;
@@ -14,7 +15,7 @@ class HighlightedSong extends StatelessWidget {
 
   const HighlightedSong({
     super.key,
-    required this.thumbnailPath,
+    required this.thumbnailUrl,
     required this.songTitle,
     required this.songArtist,
     required this.onTap,
@@ -32,19 +33,45 @@ class HighlightedSong extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            height: 353,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(thumbnailPath),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Text('Today\'s for\nYou', style: AppText.headingMedium),
-          ),
+          thumbnailUrl.isNotEmpty
+              ? Stack(
+                  alignment: .center,
+                  children: [
+                    Container(
+                      height: 353,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(thumbnailUrl),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: .circular(14),
+                      ),
+                    ),
+
+                    Container(
+                      height: 353,
+                      padding: EdgeInsets.all(16),
+                      width: .infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: .topCenter,
+                          end: Alignment(0, 0),
+                          colors: [
+                            AppPallete.backgroundBlack.withValues(alpha: 0.8),
+                            AppPallete.containerBlack.withValues(alpha: 0.2),
+                          ],
+                        ),
+                        borderRadius: .circular(14),
+                      ),
+                      child: Text(
+                        'Today\'s for\nYou',
+                        style: AppText.headingMedium,
+                      ),
+                    ),
+                  ],
+                )
+              : Bone.square(size: 360,borderRadius: .circular(14),),
 
           Padding(
             padding: const EdgeInsets.all(18.0),

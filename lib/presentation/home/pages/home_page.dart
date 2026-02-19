@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/components/app_logo.dart';
-import '../../../core/constants/image_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../data/models/song_model.dart';
@@ -30,9 +29,9 @@ class HomePage extends StatelessWidget {
             padding: .all(20),
             child: BlocBuilder<SongBloc, SongState>(
               builder: (context, state) {
-                var songsData = List.empty();
+                List<SongModel> songsData = List.empty();
 
-                if (state is SongLoading) {
+                if (state is SongLoading || state is SongInitial) {
                   songsData = List.filled(
                     5,
                     SongModel(
@@ -48,6 +47,7 @@ class HomePage extends StatelessWidget {
 
                 if (state is GetSongSuccess) {
                   songsData = state.songs;
+                  songsData.shuffle();
                 }
 
                 return Column(
@@ -60,9 +60,9 @@ class HomePage extends StatelessWidget {
                         _ => false,
                       },
                       child: HighlightedSong(
-                        thumbnailPath: ImageConst.thumbnail2,
-                        songTitle: 'Ghibli Melodies',
-                        songArtist: 'by Studio Ghibli',
+                        thumbnailUrl: songsData[0].thumbnailUrl,
+                        songTitle: songsData[0].title,
+                        songArtist: songsData[0].artist,
                         onTap: () {},
                         playButton: () {},
                         favoriteButton: () {},

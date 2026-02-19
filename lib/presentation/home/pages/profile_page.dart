@@ -38,8 +38,8 @@ class ProfilePage extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            var name = 'Name Placeholder';
-            var email = 'Email Placeholder';
+            var name = '';
+            var email = '';
 
             if (state is AuthSuccess) {
               name = state.userData.name;

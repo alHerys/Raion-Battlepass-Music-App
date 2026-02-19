@@ -6,7 +6,7 @@ import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
 import '../../../viewmodel/auth/auth_bloc.dart';
 import '../widget/auth_button.dart';
-import '../widget/custom_field.dart';
+import '../../../core/components/custom_field.dart';
 import '../widget/error_message_container.dart';
 
 class AuthBottomSheets {

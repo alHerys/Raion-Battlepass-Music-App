@@ -11,9 +11,11 @@ class AppTheme {
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
     fontFamily: GoogleFonts.inter().fontFamily,
+    brightness: .dark,
+    
     colorScheme: ColorScheme.dark(
+      
       primary: AppPallete.yellow,
       onPrimary: AppPallete.textBlack,
       surface: AppPallete.backgroundBlack,
@@ -43,7 +45,7 @@ class AppTheme {
       errorBorder: _border().copyWith(
         borderSide: BorderSide(color: AppPallete.red, width: 0),
       ),
-      hintStyle: AppText.body,
+      hintStyle: AppText.caption,
       contentPadding: EdgeInsets.symmetric(horizontal: 15),
       filled: true,
       fillColor: AppPallete.white.withValues(alpha: 0.2),

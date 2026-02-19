@@ -7,8 +7,9 @@ import 'data/repositories/auth_repository.dart';
 import 'data/repositories/song_repository.dart';
 import 'data/services/hive_storage_service.dart';
 import 'presentation/auth/page/auth_onboarding_page.dart';
+import 'presentation/song/pages/song_player_page.dart';
+import 'presentation/song/pages/upload_page.dart';
 import 'viewmodel/auth/auth_bloc.dart';
-import 'presentation/home/pages/home_page.dart';
 import 'presentation/home/pages/root_page.dart';
 import 'presentation/splash/splash_page.dart';
 import 'viewmodel/song/song_bloc.dart';
@@ -16,7 +17,7 @@ import 'viewmodel/song/song_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //? Hive Local Storage
+  // Hive Local Storage
   await Hive.initFlutter();
   await HiveStorageService().initBox();
 
@@ -51,12 +52,15 @@ class MainApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: AppTheme.darkTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: .dark,
           initialRoute: '/',
           routes: {
             '/': (_) => SplashPage(),
             '/auth': (_) => AuthOnboardingPage(),
             '/home': (_) => RootPage(),
+            '/play': (_) => SongPlayerPage(),
+            '/upload': (_) => UploadPage(),
           },
         ),
       ),

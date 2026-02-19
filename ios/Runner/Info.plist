@@ -46,8 +46,16 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UIStatusBarHidden</key>
-		<true/>
+		<false/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+
+		<!-- For Audio File Picker -->
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Explain why your app uses music (Just Template)</string>
+
+		<!-- For Image File Picker -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Explain why your app uses photo library</string>
 	</dict>
 </plist>

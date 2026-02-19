@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 import '../../../core/theme/app_pallete.dart';
 import '../../../viewmodel/song/song_bloc.dart';
+import '../../song/pages/upload_page.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
 
@@ -17,8 +18,8 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   void initState() {
-    context.read<SongBloc>().add(GetAllSongEvent());
     super.initState();
+    context.read<SongBloc>().add(GetAllSongEvent());
   }
 
   @override
@@ -35,6 +36,14 @@ class _RootPageState extends State<RootPage> {
           ),
         ),
         PersistentTabConfig(
+          screen: UploadPage(),
+          item: ItemConfig(
+            icon: Icon(Icons.upload_rounded),
+            title: 'Upload',
+            activeForegroundColor: AppPallete.yellow,
+          ),
+        ),
+        PersistentTabConfig(
           screen: ProfilePage(),
           item: ItemConfig(
             icon: Icon(Icons.person),
@@ -46,9 +55,7 @@ class _RootPageState extends State<RootPage> {
       navBarBuilder: (navBarConfig) {
         return Style12BottomNavBar(
           navBarConfig: navBarConfig,
-          navBarDecoration: NavBarDecoration(
-            color: AppPallete.backgroundBlack,
-          ),
+          navBarDecoration: NavBarDecoration(color: AppPallete.backgroundBlack),
         );
       },
     );
